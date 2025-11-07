@@ -17,9 +17,15 @@ const DeliveryOrderComponent: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const totalPages = Math.ceil(filteredDeliveries.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredDeliveries.length / itemsPerPage));
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedDeliveries = filteredDeliveries.slice(startIndex, startIndex + itemsPerPage);
+
+  React.useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
 
   const getStatusBadge = (status: string) => {
     const styles = {
