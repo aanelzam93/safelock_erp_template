@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Safelock Medical ERP System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Enhanced Cards */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Icon containers */
+        .icon-container {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .icon-success {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #16a34a;
+        }
+
+        .icon-info {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #2563eb;
+        }
+
+        .icon-warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #d97706;
+        }
+
+        .icon-danger {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            margin: 0.25rem 0;
+            border-radius: 10px;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .nav-item:hover {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #4fd1c5 0%, #06b6d4 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 209, 197, 0.3);
+        }
+
+        .nav-item svg {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-category {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.875rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .badge-processing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .badge-shipped {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-urgent {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Chart container */
+        .chart-wrapper {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f1f5f9;
+        }
+
+        /* Tab buttons */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 3px solid transparent;
+            font-size: 0.875rem;
+        }
+
+        .tab-btn:hover {
+            color: #0f172a;
+            background: #f8fafc;
+        }
+
+        .tab-btn.active {
+            color: #06b6d4;
+            border-bottom-color: #06b6d4;
+            background: linear-gradient(to bottom, #f0fdfa 0%, transparent 100%);
+        }
+
+        /* Mobile sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 280px;
+                z-index: 50;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .loading-shimmer {
+            animation: shimmer 2s infinite;
+            background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-size: 1000px 100%;
+        }
+
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar custom-scrollbar flex flex-col w-64 lg:w-72 overflow-y-auto">
+            <!-- Logo -->
+            <div class="sticky top-0 bg-white z-10 border-b border-gray-100 px-6 py-5">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold bg-gradient-to-r from-teal-500 to-cyan-600 bg-clip-text text-transparent">Safelock</h1>
+                        <p class="text-xs text-gray-500 font-medium">Medical ERP System</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 px-3 py-4">
+                <div id="navMenu"></div>
+            </nav>
+
+            <!-- User Profile (Sidebar Footer) -->
+            <div class="sticky bottom-0 bg-white border-t border-gray-100 p-4">
+                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-teal-50 to-cyan-50">
+                    <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold">
+                        A
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-gray-800 truncate">Administrator</p>
+                        <p class="text-xs text-gray-500 truncate">PT. Safelock Medical</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto custom-scrollbar bg-gray-50">
+            <!-- Header -->
+            <header class="sticky top-0 bg-white border-b border-gray-200 z-30 shadow-sm">
+                <div class="px-4 lg:px-8 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <button id="menuToggle" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                                </svg>
+                            </button>
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800" id="pageTitle">Dashboard</h2>
+                                <p class="text-sm text-gray-500" id="pageSubtitle">Selamat Datang di Sistem ERP</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2 lg:space-x-4">
+                            <!-- Notifications -->
+                            <button class="relative p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                </svg>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                            </button>
+
+                            <!-- Messages -->
+                            <button class="relative p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                </svg>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-teal-500 rounded-full"></span>
+                            </button>
+
+                            <!-- Country Flag -->
+                            <div class="hidden lg:flex items-center space-x-2 px-3 py-1.5 bg-gray-100 rounded-lg">
+                                <span class="text-lg">🇮🇩</span>
+                                <span class="text-sm font-medium text-gray-700">Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div id="mainContent" class="p-4 lg:p-8">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Global state
+        let isSidebarOpen = false;
+        let currentPage = 'Dashboard';
+
+        // Navigation structure
+        const navigationItems = [
+            {
+                category: 'Management',
+                items: [
+                    { id: 'Dashboard', label: 'Dashboard', icon: 'dashboard' }
+                ]
+            },
+            {
+                category: 'Sales & Customers',
+                items: [
+                    { id: 'CRM', label: 'CRM', icon: 'users' },
+                    { id: 'SalesDistribution', label: 'Sales & Distribution', icon: 'trending-up' },
+                    { id: 'Orders', label: 'Orders', icon: 'shopping-cart' }
+                ]
+            },
+            {
+                category: 'Operations & Admin',
+                items: [
+                    { id: 'QualityAssurance', label: 'Quality Assurance', icon: 'check-circle' },
+                    { id: 'Maintenance', label: 'Maintenance', icon: 'tool' },
+                    { id: 'Finance', label: 'Finance & Accounting', icon: 'dollar-sign', hasSubmenu: true },
+                    { id: 'HumanResource', label: 'Human Resource', icon: 'user' },
+                    { id: 'UserManagement', label: 'User Management', icon: 'users-cog', hasSubmenu: true },
+                    { id: 'Regulatory', label: 'Regulatory & Compliance', icon: 'shield' }
+                ]
+            },
+            {
+                category: 'Analytics',
+                items: [
+                    { id: 'Reporting', label: 'Reporting & Analytics', icon: 'chart-bar' }
+                ]
+            }
+        ];
+
+        // SVG Icons
+        const icons = {
+            dashboard: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>',
+            users: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>',
+            'trending-up': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>',
+            'shopping-cart': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>',
+            'check-circle': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+            tool: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>',
+            'dollar-sign': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+            user: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>',
+            'users-cog': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>',
+            shield: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
+            'chart-bar': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>'
+        };
+
+        // Initialize navigation
+        function initializeNavigation() {
+            const navMenu = document.getElementById('navMenu');
+            let html = '';
+
+            navigationItems.forEach(section => {
+                html += `<div class="nav-category">${section.category}</div>`;
+                section.items.forEach(item => {
+                    html += `
+                        <div class="nav-item" data-page="${item.id}" onclick="loadPage('${item.id}')">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                ${icons[item.icon]}
+                            </svg>
+                            <span>${item.label}</span>
+                        </div>
+                    `;
+                });
+            });
+
+            navMenu.innerHTML = html;
+            
+            // Set active state for Dashboard
+            updateActiveNav('Dashboard');
+        }
+
+        // Update active navigation item
+        function updateActiveNav(pageId) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                if (item.dataset.page === pageId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Load page content
+        function loadPage(pageId) {
+            currentPage = pageId;
+            updateActiveNav(pageId);
+            
+            const content = getPageContent(pageId);
+            document.getElementById('mainContent').innerHTML = content;
+            
+            // Update page title
+            const pageTitle = navigationItems
+                .flatMap(section => section.items)
+                .find(item => item.id === pageId);
+            
+            if (pageTitle) {
+                document.getElementById('pageTitle').textContent = pageTitle.label;
+            }
+
+            // Initialize page-specific features
+            if (pageId === 'Dashboard') {
+                initializeDashboard();
+            }
+
+            // Close sidebar on mobile
+            if (window.innerWidth < 768) {
+                closeSidebar();
+            }
+        }
+
+        // Get page content
+        function getPageContent(pageId) {
+            const contentMap = {
+                'Dashboard': getDashboardContent(),
+                'CRM': getGenericContent('Customer Relationship Management', 'Kelola hubungan pelanggan dan pipeline penjualan'),
+                'SalesDistribution': getGenericContent('Sales & Distribution', 'Kelola proses penjualan dan distribusi'),
+                'Orders': getGenericContent('Orders', 'Kelola pesanan pelanggan'),
+                'QualityAssurance': getGenericContent('Quality Assurance', 'Kelola proses jaminan kualitas'),
+                'Maintenance': getGenericContent('Maintenance', 'Kelola jadwal perawatan peralatan'),
+                'Finance': getGenericContent('Finance & Accounting', 'Kelola keuangan dan akuntansi'),
+                'HumanResource': getGenericContent('Human Resource', 'Kelola sumber daya manusia'),
+                'UserManagement': getGenericContent('User Management', 'Kelola pengguna dan hak akses'),
+                'Regulatory': getGenericContent('Regulatory & Compliance', 'Kelola kepatuhan regulasi'),
+                'Reporting': getGenericContent('Reporting & Analytics', 'Generate laporan dan analisis bisnis')
+            };
+
+            return contentMap[pageId] || getGenericContent('Page Not Found', 'Halaman tidak ditemukan');
+        }
+
+        // Dashboard content
+        function getDashboardContent() {
+            return `
+                <div class="space-y-6">
+                    <!-- Welcome Section -->
+                    <div class="bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-8 text-white shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-3xl font-bold mb-2">Selamat Datang, Admin! 👋</h1>
+                                <p class="text-teal-100 text-lg">Ini adalah ringkasan operasional PT. Safelock Medical.</p>
+                            </div>
+                            <div class="hidden lg:block">
+                                <svg class="w-32 h-32 text-white opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Total Sales -->
+                        <div class="stat-card">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-500 mb-1">TOTAL PENJUALAN</p>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Rp 2.4 Jt</h3>
+                                    <div class="flex items-center text-sm">
+                                        <span class="text-green-600 font-semibold flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                            </svg>
+                                            +12%
+                                        </span>
+                                        <span class="text-gray-500 ml-2">dari bulan lalu</span>
+                                    </div>
+                                </div>
+                                <div class="icon-container icon-success">
+                                    💰
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Orders -->
+                        <div class="stat-card">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-500 mb-1">PESANAN BARU</p>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">8</h3>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="status-badge badge-processing">2 Baru</span>
+                                        <span class="text-xs text-gray-500">Perlu diproses</span>
+                                    </div>
+                                </div>
+                                <div class="icon-container icon-info">
+                                    📦
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Low Stock -->
+                        <div class="stat-card">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-500 mb-1">STOK RENDAH</p>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">3</h3>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="status-badge badge-pending">-100 Items</span>
+                                        <span class="text-xs text-gray-500">Perlu perhatian</span>
+                                    </div>
+                                </div>
+                                <div class="icon-container icon-warning">
+                                    ⚠️
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Overdue Tasks -->
+                        <div class="stat-card">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-500 mb-1">TAGIHAN JATUH TEMPO</p>
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-2">2</h3>
+                                    <div class="flex items-center space-x-3">
+                                        <span class="status-badge badge-urgent">Urgent</span>
+                                        <span class="text-xs text-gray-500">Perlu tindakan</span>
+                                    </div>
+                                </div>
+                                <div class="icon-container icon-danger">
+                                    🚨
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Sales Overview -->
+                        <div class="chart-wrapper">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800">Sales Overview (Monthly)</h3>
+                                    <p class="text-sm text-gray-500">Pertumbuhan penjualan bulanan</p>
+                                </div>
+                                <div class="px-4 py-2 bg-green-50 text-green-700 rounded-lg font-semibold text-sm">
+                                    +23% Growth
+                                </div>
+                            </div>
+                            <div class="h-64 flex items-end justify-around space-x-4">
+                                <div class="flex flex-col items-center flex-1">
+                                    <div class="w-full bg-gradient-to-t from-teal-400 to-teal-500 rounded-t-lg shadow-lg" style="height: 50%"></div>
+                                    <span class="text-xs text-gray-500 mt-2 font-medium">Oct</span>
+                                </div>
+                                <div class="flex flex-col items-center flex-1">
+                                    <div class="w-full bg-gradient-to-t from-teal-400 to-teal-500 rounded-t-lg shadow-lg" style="height: 75%"></div>
+                                    <span class="text-xs text-gray-500 mt-2 font-medium">Nov</span>
+                                </div>
+                                <div class="flex flex-col items-center flex-1">
+                                    <div class="w-full bg-gradient-to-t from-teal-500 to-cyan-500 rounded-t-lg shadow-lg" style="height: 100%"></div>
+                                    <span class="text-xs text-gray-500 mt-2 font-medium">Dec</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Production Overview -->
+                        <div class="chart-wrapper">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800">Production Overview</h3>
+                                    <p class="text-sm text-gray-500">Tren produksi mingguan</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="tab-btn active" data-period="daily">Daily</button>
+                                    <button class="tab-btn" data-period="weekly">Weekly</button>
+                                    <button class="tab-btn" data-period="monthly">Monthly</button>
+                                </div>
+                            </div>
+                            <div class="h-64 relative">
+                                <!-- Simple line chart representation -->
+                                <svg class="w-full h-full" viewBox="0 0 400 200">
+                                    <!-- Grid lines -->
+                                    <line x1="0" y1="50" x2="400" y2="50" stroke="#e5e7eb" stroke-width="1"/>
+                                    <line x1="0" y1="100" x2="400" y2="100" stroke="#e5e7eb" stroke-width="1"/>
+                                    <line x1="0" y1="150" x2="400" y2="150" stroke="#e5e7eb" stroke-width="1"/>
+                                    
+                                    <!-- Line 1: IV Drip Set - Adult -->
+                                    <polyline points="0,150 50,140 100,135 150,130 200,125 250,120 300,115 350,110 400,105" 
+                                              fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+                                    
+                                    <!-- Line 2: Syringe 10ml with Needle -->
+                                    <polyline points="0,180 50,170 100,165 150,155 200,148 250,142 300,138 350,135 400,130" 
+                                              fill="none" stroke="#06b6d4" stroke-width="3" stroke-linecap="round"/>
+                                    
+                                    <!-- Line 3: Digital Thermometer -->
+                                    <polyline points="0,190 50,185 100,182 150,178 200,175 250,172 300,168 350,165 400,162" 
+                                              fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+                                    
+                                    <!-- Day labels -->
+                                    <text x="50" y="195" font-size="10" fill="#6b7280" text-anchor="middle">21</text>
+                                    <text x="100" y="195" font-size="10" fill="#6b7280" text-anchor="middle">22</text>
+                                    <text x="150" y="195" font-size="10" fill="#6b7280" text-anchor="middle">23</text>
+                                    <text x="200" y="195" font-size="10" fill="#6b7280" text-anchor="middle">24</text>
+                                    <text x="250" y="195" font-size="10" fill="#6b7280" text-anchor="middle">25</text>
+                                    <text x="300" y="195" font-size="10" fill="#6b7280" text-anchor="middle">26</text>
+                                    <text x="350" y="195" font-size="10" fill="#6b7280" text-anchor="middle">27</text>
+                                </svg>
+                                
+                                <!-- Legend -->
+                                <div class="absolute bottom-0 left-0 right-0 flex justify-center space-x-6 text-xs">
+                                    <div class="flex items-center">
+                                        <div class="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
+                                        <span class="text-gray-600">IV Drip Set - Adult</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-3 h-3 bg-cyan-500 rounded-full mr-1"></div>
+                                        <span class="text-gray-600">Syringe 10ml with Needle</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-3 h-3 bg-amber-500 rounded-full mr-1"></div>
+                                        <span class="text-gray-600">Digital Thermometer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Orders Table -->
+                    <div class="chart-wrapper">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800">Latest Sales Orders</h3>
+                                <p class="text-sm text-gray-500">Pesanan terbaru yang perlu diproses</p>
+                            </div>
+                            <button class="px-4 py-2 text-sm font-semibold text-teal-600 hover:bg-teal-50 rounded-lg transition-colors">
+                                Lihat Semua →
+                            </button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th class="text-left py-3 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Order ID</th>
+                                        <th class="text-left py-3 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Pelanggan</th>
+                                        <th class="text-left py-3 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Total</th>
+                                        <th class="text-left py-3 px-4 text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-4">
+                                            <span class="font-semibold text-teal-600">#ORD-2024-001</span>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <div>
+                                                <p class="font-medium text-gray-900">RS. Medika Sehat</p>
+                                                <p class="text-sm text-gray-500">Jakarta Selatan</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <span class="font-semibold text-gray-900">Rp 1,250,000</span>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <span class="status-badge badge-processing">Processing</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-4">
+                                            <span class="font-semibold text-teal-600">#ORD-2024-002</span>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <div>
+                                                <p class="font-medium text-gray-900">Klinik Sehat Mulia</p>
+                                                <p class="text-sm text-gray-500">Bandung</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <span class="font-semibold text-gray-900">Rp 890,000</span>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <span class="status-badge badge-pending">Pending</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="py-4 px-4">
+                                            <span class="font-semibold text-teal-600">#ORD-2024-003</span>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <div>
+                                                <p class="font-medium text-gray-900">Apotek Sejahtera</p>
+                                                <p class="text-sm text-gray-500">Surabaya</p>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <span class="font-semibold text-gray-900">Rp 2,100,000</span>
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            <span class="status-badge badge-shipped">Shipped</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generic content for other pages
+        function getGenericContent(title, description) {
+            return `
+                <div class="space-y-6">
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+                        <div class="text-center py-12">
+                            <div class="w-20 h-20 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">${title}</h2>
+                            <p class="text-gray-500 mb-8">${description}</p>
+                            <p class="text-sm text-gray-400">Interface modul ini sedang dalam pengembangan</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize dashboard features
+        function initializeDashboard() {
+            // Production period tabs
+            const periodButtons = document.querySelectorAll('.tab-btn[data-period]');
+            periodButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    periodButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // Sidebar toggle functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            isSidebarOpen = !isSidebarOpen;
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            isSidebarOpen = false;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNavigation();
+            loadPage('Dashboard');
+
+            // Menu toggle
+            document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
+
+            // Close sidebar when clicking outside on mobile
+            document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 768) {
+                    closeSidebar();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

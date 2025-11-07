@@ -1,0 +1,5 @@
+{
+  "name": "Safelock Medical ERP",
+  "description": "An Enterprise Resource Planning (ERP) application for PT Safelock Medical to manage inventory, orders, stock, and bills of materials for hospital equipment manufacturing.",
+  "requestFramePermissions": []
+}
