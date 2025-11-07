@@ -1,4 +1,4 @@
-import type { InventoryItem, SalesOrder, BillOfMaterial, User, Role, Product, PurchaseOrder, QualityCheck, MaintenanceTask, Regulation, Employee, Payable, Receivable, LedgerEntry, CostCenter, Budget, ProductionLog, WorkOrder, WarehouseLocation, Customer } from './types';
+import type { InventoryItem, SalesOrder, BillOfMaterial, User, Role, Product, PurchaseOrder, QualityCheck, MaintenanceTask, Regulation, Employee, Payable, Receivable, LedgerEntry, CostCenter, Budget, ProductionLog, WorkOrder, WarehouseLocation, Customer, Supplier, GoodsReceipt, DeliveryOrder, Quotation, StockTransfer, Payment, TaxRecord, Document, IncomingQuality } from './types';
 
 export const WAREHOUSE_LOCATION_DATA: WarehouseLocation[] = [
     { id: 'LOC-A01', name: 'Rak A-01', area: 'Storage', capacity: 100, itemCount: 5 },
@@ -181,4 +181,73 @@ export const WORK_ORDER_DATA: WorkOrder[] = [
     { id: 'WO-002', productName: 'Syringe 10ml with Needle', productSku: 'SFL-SYR-10ML-01', quantityToProduce: 500, quantityProduced: 250, quantityRejected: 5, status: 'In Progress', operator: 'Anwar Hidayat', machine: 'Molding Machine #2', dueDate: '2023-10-27' },
     { id: 'WO-003', productName: 'Digital Thermometer', productSku: 'SFL-TRM-DIG-01', quantityToProduce: 800, quantityProduced: 0, quantityRejected: 0, status: 'Pending', operator: 'N/A', machine: 'Assembly Line #2', dueDate: '2023-10-28' },
     { id: 'WO-004', productName: 'IV Drip Set - Adult', productSku: 'SFL-IV-AD-01', quantityToProduce: 1200, quantityProduced: 0, quantityRejected: 0, status: 'Pending', operator: 'N/A', machine: 'Assembly Line #1', dueDate: '2023-10-29' },
+];
+
+// ===== NEW FEATURES DATA =====
+
+export const SUPPLIER_DATA: Supplier[] = [
+    { id: 'SUP-001', name: 'PT Medika Supply', category: 'Raw Material', contactPerson: 'Bpk. Sutrisno', email: 'sutrisno@medikasupply.co.id', phone: '021-555-1234', address: 'Jl. Industri Raya No. 45, Jakarta', paymentTerm: 'Net 30', status: 'Active', rating: 4.5 },
+    { id: 'SUP-002', name: 'CV Sejahtera Kimia', category: 'Chemical', contactPerson: 'Ibu Sinta', email: 'sinta@sejahterakimia.com', phone: '021-555-5678', address: 'Jl. Kimia Raya No. 12, Tangerang', paymentTerm: 'Net 45', status: 'Active', rating: 4.0 },
+    { id: 'SUP-003', name: 'PT Global Plastik', category: 'Packaging', contactPerson: 'Bpk. Hartono', email: 'hartono@globalplastik.com', phone: '021-555-9876', address: 'Jl. Industri No. 88, Bekasi', paymentTerm: 'Net 30', status: 'Active', rating: 4.8 },
+    { id: 'SUP-004', name: 'PT Indo Medical Parts', category: 'Components', contactPerson: 'Bpk. Rahmat', email: 'rahmat@indomedical.co.id', phone: '031-888-1111', address: 'Jl. Raya Surabaya No. 100, Surabaya', paymentTerm: 'Net 60', status: 'Active', rating: 4.2 },
+    { id: 'SUP-005', name: 'CV Mandiri Elektronik', category: 'Electronics', contactPerson: 'Ibu Dewi', email: 'dewi@mandirielektronik.com', phone: '022-777-2222', address: 'Jl. Elektronik No. 23, Bandung', paymentTerm: 'COD', status: 'Inactive', rating: 3.5 },
+];
+
+export const GOODS_RECEIPT_DATA: GoodsReceipt[] = [
+    { id: 'GR-001', poId: 'PO-001', poNumber: 'PO-001', supplier: 'PT Medika Supply', receiptDate: '2023-10-18', receivedBy: 'Budi Santoso', status: 'Completed', itemCount: 3, notes: 'Semua barang diterima dalam kondisi baik' },
+    { id: 'GR-002', poId: 'PO-002', poNumber: 'PO-002', supplier: 'CV Sejahtera Kimia', receiptDate: '2023-10-24', receivedBy: 'Budi Santoso', status: 'Partial', itemCount: 5, notes: '3 item diterima, 2 item backorder' },
+    { id: 'GR-003', poId: 'PO-001', poNumber: 'PO-001', supplier: 'PT Medika Supply', receiptDate: '2023-10-26', receivedBy: 'Budi Santoso', status: 'Draft', itemCount: 2, notes: 'Menunggu QC inspection' },
+];
+
+export const DELIVERY_ORDER_DATA: DeliveryOrder[] = [
+    { id: 'DO-001', soId: 'SO-1001', soNumber: 'SO-1001', customer: 'RS Harapan Kita', deliveryDate: '2023-10-25', driver: 'Agus Setiawan', vehicle: 'B 1234 XYZ', status: 'Delivered', itemCount: 5, notes: 'Diterima oleh Bagian Gudang' },
+    { id: 'DO-002', soId: 'SO-1002', soNumber: 'SO-1002', customer: 'Klinik Medika Utama', deliveryDate: '2023-10-26', driver: 'Andi Wijaya', vehicle: 'B 5678 ABC', status: 'In Transit', itemCount: 3, notes: 'Estimasi tiba jam 14:00' },
+    { id: 'DO-003', soId: 'SO-1003', soNumber: 'SO-1003', customer: 'Distributor Medis Jaya', deliveryDate: '2023-10-27', driver: 'N/A', vehicle: 'N/A', status: 'Prepared', itemCount: 8, notes: 'Barang sudah dipacking' },
+    { id: 'DO-004', soId: 'SO-1000', soNumber: 'SO-1000', customer: 'RS Harapan Kita', deliveryDate: '2023-10-20', driver: 'Bambang', vehicle: 'B 9999 DEF', status: 'Returned', itemCount: 2, notes: 'Customer reject - expired date terlalu dekat' },
+];
+
+export const QUOTATION_DATA: Quotation[] = [
+    { id: 'QT-001', customer: 'RS Harapan Kita', date: '2023-10-15', validUntil: '2023-11-15', status: 'Approved', itemCount: 5, total: 15_750_000, notes: 'Discount 10% untuk order bulk' },
+    { id: 'QT-002', customer: 'Klinik Medika Utama', date: '2023-10-20', validUntil: '2023-11-20', status: 'Sent', itemCount: 3, total: 5_500_000, notes: 'Termasuk biaya pengiriman' },
+    { id: 'QT-003', customer: 'Global Pharma Inc.', date: '2023-10-22', validUntil: '2023-11-22', status: 'Draft', itemCount: 12, total: 45_000_000, notes: 'Export - FOB Jakarta' },
+    { id: 'QT-004', customer: 'Distributor Medis Jaya', date: '2023-09-10', validUntil: '2023-10-10', status: 'Expired', itemCount: 4, total: 8_200_000, notes: 'Tidak ada respon dari customer' },
+    { id: 'QT-005', customer: 'RS Mitra Keluarga', date: '2023-10-18', validUntil: '2023-11-18', status: 'Rejected', itemCount: 6, total: 12_000_000, notes: 'Customer memilih supplier lain' },
+];
+
+export const STOCK_TRANSFER_DATA: StockTransfer[] = [
+    { id: 'ST-001', fromLocation: 'LOC-A01', toLocation: 'LOC-PCK', transferDate: '2023-10-25', requestedBy: 'Budi Santoso', status: 'Completed', itemCount: 3 },
+    { id: 'ST-002', fromLocation: 'LOC-B02', toLocation: 'LOC-A01', transferDate: '2023-10-26', requestedBy: 'Citra Lestari', status: 'In Transit', itemCount: 2 },
+    { id: 'ST-003', fromLocation: 'LOC-RCV', toLocation: 'LOC-QRN', transferDate: '2023-10-26', requestedBy: 'Siti Aminah', status: 'Approved', itemCount: 1 },
+    { id: 'ST-004', fromLocation: 'LOC-A01', toLocation: 'LOC-B02', transferDate: '2023-10-27', requestedBy: 'Budi Santoso', status: 'Draft', itemCount: 5 },
+];
+
+export const PAYMENT_DATA: Payment[] = [
+    { id: 'PAY-001', type: 'Payable', referenceId: 'INV-SUP-003', referenceNumber: 'INV-SUP-003', party: 'PT Global Plastik', paymentDate: '2023-10-20', amount: 22_000_000, paymentMethod: 'Bank Transfer', status: 'Completed', bankAccount: 'BCA 1234567890' },
+    { id: 'PAY-002', type: 'Receivable', referenceId: 'INV-CUST-003', referenceNumber: 'INV-CUST-003', party: 'RS Mitra Keluarga', paymentDate: '2023-10-24', amount: 12_500_000, paymentMethod: 'Bank Transfer', status: 'Completed', bankAccount: 'Mandiri 9876543210' },
+    { id: 'PAY-003', type: 'Payable', referenceId: 'INV-SUP-001', referenceNumber: 'INV-SUP-001', party: 'PT Medika Supply', paymentDate: '2023-10-31', amount: 15_000_000, paymentMethod: 'Giro', status: 'Pending', bankAccount: 'BCA 1234567890' },
+    { id: 'PAY-004', type: 'Receivable', referenceId: 'INV-CUST-001', referenceNumber: 'INV-CUST-001', party: 'RS Harapan Kita', paymentDate: '2023-11-24', amount: 5_250_000, paymentMethod: 'Bank Transfer', status: 'Pending' },
+];
+
+export const TAX_RECORD_DATA: TaxRecord[] = [
+    { id: 'TAX-001', type: 'PPN', transactionId: 'INV-CUST-001', transactionType: 'Sales', date: '2023-10-25', taxBase: 5_250_000, taxRate: 11, taxAmount: 577_500, status: 'Posted' },
+    { id: 'TAX-002', type: 'PPN', transactionId: 'INV-SUP-001', transactionType: 'Purchase', date: '2023-10-01', taxBase: 15_000_000, taxRate: 11, taxAmount: 1_650_000, status: 'Posted' },
+    { id: 'TAX-003', type: 'PPh 23', transactionId: 'INV-SUP-002', transactionType: 'Purchase', date: '2023-09-15', taxBase: 8_500_000, taxRate: 2, taxAmount: 170_000, status: 'Posted' },
+    { id: 'TAX-004', type: 'PPh 21', transactionId: 'PAY-EMP-001', transactionType: 'Purchase', date: '2023-10-01', taxBase: 15_000_000, taxRate: 5, taxAmount: 750_000, status: 'Reported' },
+    { id: 'TAX-005', type: 'PPN', transactionId: 'INV-CUST-002', transactionType: 'Sales', date: '2023-09-10', taxBase: 1_800_000, taxRate: 11, taxAmount: 198_000, status: 'Draft' },
+];
+
+export const DOCUMENT_DATA: Document[] = [
+    { id: 'DOC-001', documentNumber: 'SOP-QC-001', title: 'Prosedur Inspeksi Incoming Material', type: 'SOP', department: 'Quality Control', revision: 'Rev. 03', effectiveDate: '2023-01-15', reviewDate: '2024-01-15', status: 'Active', approvedBy: 'Manager QC' },
+    { id: 'DOC-002', documentNumber: 'WI-PROD-005', title: 'Work Instruction - Assembly IV Drip Set', type: 'Work Instruction', department: 'Production', revision: 'Rev. 02', effectiveDate: '2023-03-10', reviewDate: '2024-03-10', status: 'Active', approvedBy: 'Manager Production' },
+    { id: 'DOC-003', documentNumber: 'FORM-QC-010', title: 'Quality Inspection Report Form', type: 'Form', department: 'Quality Control', revision: 'Rev. 01', effectiveDate: '2023-05-01', reviewDate: '2024-05-01', status: 'Active', approvedBy: 'Manager QC' },
+    { id: 'DOC-004', documentNumber: 'DWG-IV-001', title: 'Technical Drawing - IV Drip Set Adult', type: 'Drawing', department: 'Engineering', revision: 'Rev. 04', effectiveDate: '2022-06-20', reviewDate: '2023-06-20', status: 'Under Review', approvedBy: 'Engineering Manager' },
+    { id: 'DOC-005', documentNumber: 'CERT-ISO-13485', title: 'ISO 13485:2016 Certificate', type: 'Certificate', department: 'Quality Management', revision: 'Rev. 00', effectiveDate: '2021-05-15', reviewDate: '2024-05-15', status: 'Active', approvedBy: 'General Manager' },
+    { id: 'DOC-006', documentNumber: 'SOP-WH-002', title: 'Prosedur Penerimaan Barang', type: 'SOP', department: 'Warehouse', revision: 'Rev. 01', effectiveDate: '2020-08-10', reviewDate: '2023-08-10', status: 'Obsolete', approvedBy: 'Manager Warehouse' },
+];
+
+export const INCOMING_QUALITY_DATA: IncomingQuality[] = [
+    { id: 'IQC-001', grId: 'GR-001', grNumber: 'GR-001', supplier: 'PT Medika Supply', itemName: 'Plastic Tubing Raw Material', batchNumber: 'BATCH-2023-1001', inspectionDate: '2023-10-18', inspector: 'Siti Aminah', status: 'Passed', notes: 'Dimensi dan kualitas sesuai spesifikasi' },
+    { id: 'IQC-002', grId: 'GR-002', grNumber: 'GR-002', supplier: 'CV Sejahtera Kimia', itemName: 'Medical Grade PVC', batchNumber: 'BATCH-2023-1002', inspectionDate: '2023-10-24', inspector: 'Agus Salim', status: 'Pending', notes: 'Menunggu hasil lab test' },
+    { id: 'IQC-003', grId: 'GR-001', grNumber: 'GR-001', supplier: 'PT Medika Supply', itemName: 'Silicone Rubber', batchNumber: 'BATCH-2023-0985', inspectionDate: '2023-10-18', inspector: 'Siti Aminah', status: 'Failed', notes: 'Hardness tidak sesuai spec, material direject' },
+    { id: 'IQC-004', grId: 'GR-003', grNumber: 'GR-003', supplier: 'PT Medika Supply', itemName: 'Stainless Steel Needle', batchNumber: 'BATCH-2023-1003', inspectionDate: '2023-10-26', inspector: 'Agus Salim', status: 'Conditional', notes: 'Minor deviation, approved dengan catatan' },
 ];

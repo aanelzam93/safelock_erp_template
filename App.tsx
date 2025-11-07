@@ -28,6 +28,15 @@ import MRP from './components/MRP';
 import Scheduling from './components/Scheduling';
 import LoginPage from './components/LoginPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import SupplierManagement from './components/SupplierManagement';
+import GoodsReceipt from './components/GoodsReceipt';
+import DeliveryOrder from './components/DeliveryOrder';
+import Quotation from './components/Quotation';
+import StockTransfer from './components/StockTransfer';
+import PaymentProcessing from './components/PaymentProcessing';
+import TaxManagement from './components/TaxManagement';
+import DocumentControl from './components/DocumentControl';
+import IncomingQuality from './components/IncomingQuality';
 
 
 export type Page =
@@ -56,7 +65,16 @@ export type Page =
   | 'CRM'
   | 'MRP'
   | 'Scheduling'
-  | 'Login';
+  | 'Login'
+  | 'SupplierManagement'
+  | 'GoodsReceipt'
+  | 'DeliveryOrder'
+  | 'Quotation'
+  | 'StockTransfer'
+  | 'PaymentProcessing'
+  | 'TaxManagement'
+  | 'DocumentControl'
+  | 'IncomingQuality';
 
 const AppContent: React.FC = () => {
   const [activePage, setActivePage] = useState<Page>('Dashboard');
@@ -124,6 +142,15 @@ const AppContent: React.FC = () => {
       case 'CRM': return <CRM />;
       case 'MRP': return <MRP />;
       case 'Scheduling': return <Scheduling />;
+      case 'SupplierManagement': return <SupplierManagement />;
+      case 'GoodsReceipt': return <GoodsReceipt />;
+      case 'DeliveryOrder': return <DeliveryOrder />;
+      case 'Quotation': return <Quotation />;
+      case 'StockTransfer': return <StockTransfer />;
+      case 'PaymentProcessing': return <PaymentProcessing />;
+      case 'TaxManagement': return <TaxManagement />;
+      case 'DocumentControl': return <DocumentControl />;
+      case 'IncomingQuality': return <IncomingQuality />;
       default:
         return <div className="p-6"><h1 className="text-2xl font-semibold text-gray-700">{activePage}</h1><p className="mt-2 text-gray-500">This page is under construction.</p></div>;
     }

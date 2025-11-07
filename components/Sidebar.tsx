@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { 
+import {
     DashboardIcon, InventoryIcon, OrdersIcon, BOMIcon, ChevronRightIcon, UserIcon, RoleIcon, ProductIcon,
     SupplyChainIcon, SalesIcon, QualityIcon, MaintenanceIcon, ComplianceIcon, FinanceIcon, HRIcon, ReportingIcon, ChevronDownIcon,
-    MESIcon, WMSIcon, CRMIcon, PlanningIcon
+    MESIcon, WMSIcon, CRMIcon, PlanningIcon, SupplierIcon, GoodsReceiptIcon, DeliveryIcon, QuotationIcon,
+    StockTransferIcon, PaymentIcon, TaxIcon, DocumentIcon
 } from './icons/NavIcons';
 import type { Page } from '../App';
 
@@ -46,45 +47,65 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isOpen }) 
       }
   };
   
-  const financeSubmenuOpen = openSubmenu === 'Finance';
-  const isFinanceActive = ['Finance', 'AccountsPayable', 'AccountsReceivable', 'GeneralLedger', 'CostAccounting', 'Budgeting'].includes(activePage);
-
   const userSubmenuOpen = openSubmenu === 'Users';
   const isUserMenuActive = ['Users', 'Roles'].includes(activePage);
 
   const navItems = [
     { type: 'item', id: 'Dashboard', icon: <DashboardIcon className="w-6 h-6" />, label: 'Dashboard' },
-    { type: 'header', label: 'PLANNING & EXECUTION' },
-    { type: 'item', id: 'MRP', icon: <PlanningIcon className="w-6 h-6" />, label: 'MRP' },
-    { type: 'item', id: 'Scheduling', icon: <PlanningIcon className="w-6 h-6" />, label: 'Production Scheduling' },
-    { type: 'item', id: 'MES', icon: <MESIcon className="w-6 h-6" />, label: 'MES (Operator View)' },
-    { type: 'header', label: 'CORE MODULES' },
+
+    { type: 'header', label: 'MASTER DATA' },
     { type: 'item', id: 'ProductManagement', icon: <ProductIcon className="w-6 h-6" />, label: 'Product Management' },
     { type: 'item', id: 'BOM', icon: <BOMIcon className="w-6 h-6" />, label: 'BOM' },
-    { type: 'item', id: 'SupplyChain', icon: <SupplyChainIcon className="w-6 h-6" />, label: 'Supply Chain (PO)' },
-    { type: 'header', label: 'WAREHOUSE & LOGISTICS'},
+    { type: 'item', id: 'CRM', icon: <CRMIcon className="w-6 h-6" />, label: 'Customer (CRM)' },
+    { type: 'item', id: 'SupplierManagement', icon: <SupplierIcon className="w-6 h-6" />, label: 'Supplier Management' },
+
+    { type: 'header', label: 'PROCUREMENT' },
+    { type: 'item', id: 'SupplyChain', icon: <SupplyChainIcon className="w-6 h-6" />, label: 'Purchase Order (PO)' },
+    { type: 'item', id: 'GoodsReceipt', icon: <GoodsReceiptIcon className="w-6 h-6" />, label: 'Goods Receipt (GR)' },
+    { type: 'item', id: 'IncomingQuality', icon: <QualityIcon className="w-6 h-6" />, label: 'IQC (Incoming Quality)' },
+
+    { type: 'header', label: 'PRODUCTION' },
+    { type: 'item', id: 'MRP', icon: <PlanningIcon className="w-6 h-6" />, label: 'MRP (Planning)' },
+    { type: 'item', id: 'Scheduling', icon: <PlanningIcon className="w-6 h-6" />, label: 'Production Scheduling' },
+    { type: 'item', id: 'MES', icon: <MESIcon className="w-6 h-6" />, label: 'MES (Manufacturing)' },
+
+    { type: 'header', label: 'WAREHOUSE' },
     { type: 'item', id: 'Inventory', icon: <InventoryIcon className="w-6 h-6" />, label: 'Inventory' },
     { type: 'item', id: 'WMS', icon: <WMSIcon className="w-6 h-6" />, label: 'Warehouse Management' },
-    { type: 'header', label: 'SALES & CUSTOMERS'},
-    { type: 'item', id: 'CRM', icon: <CRMIcon className="w-6 h-6" />, label: 'CRM' },
+    { type: 'item', id: 'StockTransfer', icon: <StockTransferIcon className="w-6 h-6" />, label: 'Stock Transfer' },
+
+    { type: 'header', label: 'QUALITY CONTROL' },
+    { type: 'item', id: 'QualityAssurance', icon: <QualityIcon className="w-6 h-6" />, label: 'Quality Assurance (FQC)' },
+
+    { type: 'header', label: 'SALES & DELIVERY'},
+    { type: 'item', id: 'Quotation', icon: <QuotationIcon className="w-6 h-6" />, label: 'Sales Quotation' },
+    { type: 'item', id: 'Orders', icon: <OrdersIcon className="w-6 h-6" />, label: 'Sales Order (SO)' },
+    { type: 'item', id: 'DeliveryOrder', icon: <DeliveryIcon className="w-6 h-6" />, label: 'Delivery Order (DO)' },
     { type: 'item', id: 'Sales', icon: <SalesIcon className="w-6 h-6" />, label: 'Sales & Distribution' },
-    { type: 'item', id: 'Orders', icon: <OrdersIcon className="w-6 h-6" />, label: 'Orders' },
-    { type: 'header', label: 'OPERATIONS & ADMIN' },
-    { type: 'item', id: 'QualityAssurance', icon: <QualityIcon className="w-6 h-6" />, label: 'Quality Assurance' },
+
+    { type: 'header', label: 'FINANCE' },
+    { type: 'item', id: 'AccountsReceivable', icon: <FinanceIcon className="w-6 h-6" />, label: 'Accounts Receivable' },
+    { type: 'item', id: 'AccountsPayable', icon: <FinanceIcon className="w-6 h-6" />, label: 'Accounts Payable' },
+    { type: 'item', id: 'PaymentProcessing', icon: <PaymentIcon className="w-6 h-6" />, label: 'Payment Processing' },
+    { type: 'item', id: 'GeneralLedger', icon: <FinanceIcon className="w-6 h-6" />, label: 'General Ledger' },
+    { type: 'item', id: 'CostAccounting', icon: <FinanceIcon className="w-6 h-6" />, label: 'Cost Accounting' },
+    { type: 'item', id: 'Budgeting', icon: <FinanceIcon className="w-6 h-6" />, label: 'Budgeting' },
+    { type: 'item', id: 'TaxManagement', icon: <TaxIcon className="w-6 h-6" />, label: 'Tax Management' },
+
+    { type: 'header', label: 'COMPLIANCE & DOCS' },
+    { type: 'item', id: 'DocumentControl', icon: <DocumentIcon className="w-6 h-6" />, label: 'Document Control' },
+    { type: 'item', id: 'Compliance', icon: <ComplianceIcon className="w-6 h-6" />, label: 'Regulatory Compliance' },
     { type: 'item', id: 'Maintenance', icon: <MaintenanceIcon className="w-6 h-6" />, label: 'Maintenance' },
-    { type: 'submenu', id: 'Finance', icon: <FinanceIcon className="w-6 h-6" />, label: 'Finance & Accounting', active: isFinanceActive, open: financeSubmenuOpen, children: [
-        { id: 'AccountsPayable', label: 'Accounts Payable' },
-        { id: 'AccountsReceivable', label: 'Accounts Receivable' },
-        { id: 'GeneralLedger', label: 'General Ledger' },
-        { id: 'CostAccounting', label: 'Cost Accounting' },
-        { id: 'Budgeting', label: 'Budgeting' },
-    ]},
-    { type: 'item', id: 'HR', icon: <HRIcon className="w-6 h-6" />, label: 'Human Resource' },
+
+    { type: 'header', label: 'HUMAN RESOURCES' },
+    { type: 'item', id: 'HR', icon: <HRIcon className="w-6 h-6" />, label: 'Employee Management' },
+
+    { type: 'header', label: 'SYSTEM ADMIN' },
     { type: 'submenu', id: 'Users', icon: <UserIcon className="w-6 h-6" />, label: 'User Management', active: isUserMenuActive, open: userSubmenuOpen, children: [
         { id: 'Users', label: 'Users' },
         { id: 'Roles', label: 'Roles & Permissions' },
     ]},
-    { type: 'item', id: 'Compliance', icon: <ComplianceIcon className="w-6 h-6" />, label: 'Regulatory & Compliance' },
+
     { type: 'header', label: 'ANALYTICS' },
     { type: 'item', id: 'Reporting', icon: <ReportingIcon className="w-6 h-6" />, label: 'Reporting & Analytics' },
   ];

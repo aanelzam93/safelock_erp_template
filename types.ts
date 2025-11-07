@@ -178,3 +178,113 @@ export interface Customer {
     phone: string;
     status: 'Lead' | 'Active' | 'Inactive';
 }
+
+export interface Supplier {
+    id: string;
+    name: string;
+    category: string;
+    contactPerson: string;
+    email: string;
+    phone: string;
+    address: string;
+    paymentTerm: string;
+    status: 'Active' | 'Inactive' | 'Blacklisted';
+    rating: number;
+}
+
+export interface GoodsReceipt {
+    id: string;
+    poId: string;
+    poNumber: string;
+    supplier: string;
+    receiptDate: string;
+    receivedBy: string;
+    status: 'Draft' | 'Completed' | 'Partial';
+    itemCount: number;
+    notes: string;
+}
+
+export interface DeliveryOrder {
+    id: string;
+    soId: string;
+    soNumber: string;
+    customer: string;
+    deliveryDate: string;
+    driver: string;
+    vehicle: string;
+    status: 'Prepared' | 'In Transit' | 'Delivered' | 'Returned';
+    itemCount: number;
+    notes: string;
+}
+
+export interface Quotation {
+    id: string;
+    customer: string;
+    date: string;
+    validUntil: string;
+    status: 'Draft' | 'Sent' | 'Approved' | 'Rejected' | 'Expired';
+    itemCount: number;
+    total: number;
+    notes: string;
+}
+
+export interface StockTransfer {
+    id: string;
+    fromLocation: string;
+    toLocation: string;
+    transferDate: string;
+    requestedBy: string;
+    status: 'Draft' | 'Approved' | 'In Transit' | 'Completed' | 'Cancelled';
+    itemCount: number;
+}
+
+export interface Payment {
+    id: string;
+    type: 'Receivable' | 'Payable';
+    referenceId: string;
+    referenceNumber: string;
+    party: string;
+    paymentDate: string;
+    amount: number;
+    paymentMethod: 'Cash' | 'Bank Transfer' | 'Check' | 'Giro';
+    status: 'Pending' | 'Completed' | 'Cancelled';
+    bankAccount?: string;
+}
+
+export interface TaxRecord {
+    id: string;
+    type: 'PPh 21' | 'PPh 23' | 'PPN' | 'PPh Final';
+    transactionId: string;
+    transactionType: 'Purchase' | 'Sales';
+    date: string;
+    taxBase: number;
+    taxRate: number;
+    taxAmount: number;
+    status: 'Draft' | 'Posted' | 'Reported';
+}
+
+export interface Document {
+    id: string;
+    documentNumber: string;
+    title: string;
+    type: 'SOP' | 'Work Instruction' | 'Form' | 'Specification' | 'Drawing' | 'Certificate';
+    department: string;
+    revision: string;
+    effectiveDate: string;
+    reviewDate: string;
+    status: 'Draft' | 'Active' | 'Obsolete' | 'Under Review';
+    approvedBy: string;
+}
+
+export interface IncomingQuality {
+    id: string;
+    grId: string;
+    grNumber: string;
+    supplier: string;
+    itemName: string;
+    batchNumber: string;
+    inspectionDate: string;
+    inspector: string;
+    status: 'Passed' | 'Failed' | 'Pending' | 'Conditional';
+    notes: string;
+}
