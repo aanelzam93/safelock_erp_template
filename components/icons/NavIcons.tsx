@@ -174,3 +174,66 @@ export const PlanningIcon: React.FC<{ className?: string }> = ({ className }) =>
         <path d="M16 18h.01"></path>
     </Icon>
 );
+
+// NEW ICONS FOR NEW FEATURES
+export const SupplierIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </Icon>
+);
+
+export const GoodsReceiptIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path>
+        <path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"></path>
+        <path d="M7 21h10"></path>
+        <path d="M12 3v18"></path>
+        <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
+    </Icon>
+);
+
+export const DeliveryIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <path d="M16 3h5v5"></path>
+        <path d="M8 3H4v13h13"></path>
+        <path d="M8 13h13v8H8z"></path>
+        <path d="M10 16h4"></path>
+    </Icon>
+);
+
+export const QuotationIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="9" y1="15" x2="15" y2="15"></line>
+    </Icon>
+);
+
+export const StockTransferIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <path d="M8 7h12m0 0l-4-4m4 4l-4 4"></path>
+        <path d="M16 17H4m0 0l4 4m-4-4l4-4"></path>
+    </Icon>
+);
+
+export const PaymentIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+        <line x1="1" y1="10" x2="23" y2="10"></line>
+    </Icon>
+);
+
+export const TaxIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z"></path>
+        <circle cx="12" cy="10" r="2"></circle>
+    </Icon>
+);
+
+export const DocumentIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <Icon className={className}>
+        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+        <polyline points="13 2 13 9 20 9"></polyline>
+    </Icon>
+);
